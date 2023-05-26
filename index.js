@@ -19,15 +19,19 @@ function tong (){
 }
 
 // Đếm số dương
-function dem (){
+function demSoDuong (){
     var dem = 0;
     for (let index = 0; index < array.length; index++) {
         if (array[index]>0) {
             dem++
         }
     }
-    document.querySelector("#demSoDuong .bg-success span").innerHTML = dem;
+    return dem;
 }
+function dem(){
+document.querySelector("#demSoDuong .bg-success span").innerHTML = demSoDuong();
+}
+
 
 // Tìm số nhỏ nhất
 function min() {
@@ -37,37 +41,57 @@ function min() {
 // Tìm số dương nhỏ nhất
 function minDuong() {
     var nDuong=[];
+    var ketQua ='';
     for (let index = 0; index < array.length; index++) {
         if ( array[index]>0) {
             nDuong.push(array[index]);
         }
     } 
-    document.querySelector("#timSoDuongNhoNhat .bg-success span").innerHTML = Math.min(...nDuong);
+    if (nDuong=='') {
+        ketQua = 'Không có số dương!';
+    } else {
+        ketQua = Math.min(...nDuong);
+    }
+    document.querySelector("#timSoDuongNhoNhat .bg-success span").innerHTML = ketQua;
 }
 
 // Tìm số chẵn cuối cùng
 function chanCuoi(){
+    ketQua = 0;
     var nChan=[];
     for (let index = 0; index < array.length; index++) {
         if (array[index]% 2 == 0) {
             nChan.push(array[index]);
         }        
     }
-    document.querySelector("#timSoChanCuoiCung .bg-success span").innerHTML = nChan[nChan.length-1];
+    if (nChan=='') {
+        ketQua= -1;
+    }else{
+        ketQua = nChan[nChan.length-1];
+    }
+    document.querySelector("#timSoChanCuoiCung .bg-success span").innerHTML = ketQua;
 }
 
 // Đổi chỗ
 function doiCho2So() {
     var n1 = +document.getElementById('viTri1').value;
     var n2 = +document.getElementById('viTri2').value;
-    doiCho(n1,n2);
-    document.querySelector("#doiCho .bg-success span").innerHTML = 'Mảng sau khi đổi là: ' + array;
+
+    
+    if (n1>=array.length || n2>=array.length ) {
+        ketQua = 'Số vừa nhập không hợp lệ!'
+    } else {
+        doiCho(n1,n2);
+        ketQua = 'Mảng sau khi đổi là: ' + array;
+    }
+    
+    document.querySelector("#doiCho .bg-success span").innerHTML = ketQua;
 }
 function doiCho(index1,index2){
     var doiCho = array[index1];
     array[index1] = array[index2];
     array[index2] = doiCho;
-    return array[index1], array[index2];
+    return array;
 }
 
 // Sắp xếp tăng dần
@@ -96,10 +120,11 @@ function kiemTraSoNT(so){
 }
 
 function SNTDau(){
-    var ketQua = '';
+    var ketQua = -1;
     for (let index = 0; index < array.length; index++) {
         if (array[index]>1 && kiemTraSoNT(array[index])) {
             ketQua = array[index];
+            break;
         }
     }
     document.querySelector("#timSoNguyenToDauTien .bg-success span").innerHTML = ketQua;
@@ -133,15 +158,7 @@ function demSoAm (){
     }
     return dem;
 }
-function demSoDuong (){
-    var dem = 0;
-    for (let index = 0; index < array.length; index++) {
-        if (array[index]>0) {
-            dem++
-        }        
-    }
-    return dem;
-}
+
 function soSanhAmDuong (){
     var ketQua = '';
     if (demSoAm()>demSoDuong()) {
